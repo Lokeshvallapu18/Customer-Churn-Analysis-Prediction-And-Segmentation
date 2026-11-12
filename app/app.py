@@ -1,7 +1,4 @@
 
-import os
-from pathlib import Path
-
 import joblib
 import numpy as np
 import pandas as pd
@@ -9,6 +6,7 @@ import streamlit as st
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+from pathlib import Path
 from sklearn.decomposition import PCA
 
 
@@ -29,7 +27,6 @@ st.set_page_config(
 # =========================================================
 
 ROOT = Path(__file__).resolve().parent.parent
-
 MODEL_PATH = ROOT / "models"
 
 DATA_PATH = (
@@ -44,7 +41,6 @@ DATA_PATH = (
 
 st.markdown("""
 <style>
-
 .stApp {
     background-color: #f5f7fb;
 }
@@ -79,7 +75,6 @@ div[data-testid="stMetric"] {
     border: 1px solid #e7ebf2;
     box-shadow: 0 2px 8px rgba(0,0,0,0.04);
 }
-
 </style>
 """, unsafe_allow_html=True)
 
@@ -91,17 +86,41 @@ div[data-testid="stMetric"] {
 @st.cache_resource
 def load_models():
 
+    # Random Forest filename candidates
+    rf_candidates = [
+        "rf_model.pkl",
+        "rf_model (1).pkl",
+        "model (3).pkl",
+        "random_model.pkl"
+    ]
+
+    rf_file = next(
+        (
+            MODEL_PATH / filename
+            for filename in rf_candidates
+            if (MODEL_PATH / filename).exists()
+        ),
+        None
+    )
+
+    if rf_file is None:
+        raise FileNotFoundError(
+            "Random Forest model not found. "
+            "Expected one of: " + ", ".join(rf_candidates)
+        )
+
+    # Load the Random Forest model
+    models = {
+        "rf_model": joblib.load(rf_file)
+    }
+
+    # Load remaining models and scalers
     filenames = {
-        "rf_model": "rf_model.pkl",
         "dt_model": "DT_model.pkl",
         "dbscan_model": "dbscan_model.pkl",
         "scaler": "scaler.pkl",
-        "minmax_scaler": "MinMax_scaler.pkl",
-        "lower_bound": "lower_bound.pkl",
-        "upper_bound": "upper_bound.pkl"
+        "minmax_scaler": "MinMax_scaler.pkl"
     }
-
-    models = {}
 
     for key, filename in filenames.items():
 
@@ -129,7 +148,6 @@ def load_dataset():
 
 
 try:
-
     models = load_models()
     df = load_dataset()
 
@@ -139,7 +157,7 @@ except Exception as error:
 
     st.info(
         "Check your data folder and models folder. "
-        "Also verify that all required files are present."
+        "Verify that all required files are present."
     )
 
     st.stop()
@@ -155,7 +173,6 @@ st.sidebar.markdown(
 )
 
 st.sidebar.caption("CUSTOMER INTELLIGENCE PLATFORM")
-
 st.sidebar.divider()
 
 page = st.sidebar.radio(
@@ -183,15 +200,12 @@ st.sidebar.caption(
 
 st.markdown("""
 <div class="hero">
-
     <h1>Customer Churn Intelligence</h1>
-
     <p>
         Analyze customer behaviour, predict customer churn,
         and discover meaningful customer segments using
         Machine Learning.
     </p>
-
 </div>
 """, unsafe_allow_html=True)
 
@@ -215,7 +229,6 @@ if page == "Dashboard":
         )
 
     if "Churn" not in dashboard_df.columns:
-
         st.error("Churn column not found in dataset.")
         st.stop()
 
@@ -235,32 +248,14 @@ if page == "Dashboard":
     )
 
     # KPI Cards
-
     c1, c2, c3, c4 = st.columns(4)
 
-    c1.metric(
-        "Total Customers",
-        f"{total_customers:,}"
-    )
-
-    c2.metric(
-        "Churned Customers",
-        f"{churned:,}"
-    )
-
-    c3.metric(
-        "Retained Customers",
-        f"{retained:,}"
-    )
-
-    c4.metric(
-        "Churn Rate",
-        f"{churn_rate:.2f}%"
-    )
+    c1.metric("Total Customers", f"{total_customers:,}")
+    c2.metric("Churned Customers", f"{churned:,}")
+    c3.metric("Retained Customers", f"{retained:,}")
+    c4.metric("Churn Rate", f"{churn_rate:.2f}%")
 
     st.divider()
-
-    # Churn Distribution
 
     left, right = st.columns(2)
 
@@ -268,16 +263,12 @@ if page == "Dashboard":
 
         st.markdown("### Churn Distribution")
 
-        churn_data = pd.Series(
-            {
-                "Retained": retained,
-                "Churned": churned
-            }
-        )
+        churn_data = pd.Series({
+            "Retained": retained,
+            "Churned": churned
+        })
 
         st.bar_chart(churn_data)
-
-    # Subscription Analysis
 
     with right:
 
@@ -299,8 +290,6 @@ if page == "Dashboard":
 
     left, right = st.columns(2)
 
-    # Contract Analysis
-
     with left:
 
         st.markdown("### Contract Analysis")
@@ -317,17 +306,13 @@ if page == "Dashboard":
 
             st.bar_chart(contract_data)
 
-    # Gender Analysis
-
     with right:
 
         st.markdown("### Gender Distribution")
 
         if "Gender" in dashboard_df.columns:
 
-            gender_data = dashboard_df[
-                "Gender"
-            ].value_counts()
+            gender_data = dashboard_df["Gender"].value_counts()
 
             st.bar_chart(gender_data)
 
@@ -443,10 +428,7 @@ elif page == "Churn Prediction":
 
         try:
 
-            # -----------------------------------------
-            # NUMERICAL FEATURES
-            # -----------------------------------------
-
+            # Numerical features
             numerical_data = {
                 "Age": age,
                 "Tenure": tenure,
@@ -457,28 +439,9 @@ elif page == "Churn Prediction":
                 "Last Interaction": last_interaction
             }
 
-            customer = pd.DataFrame(
-                [numerical_data]
-            )
+            customer = pd.DataFrame([numerical_data])
 
-            # Apply training IQR bounds
-
-            lower = models["lower_bound"]
-            upper = models["upper_bound"]
-
-            for column in customer.columns:
-
-                if column in lower.index and column in upper.index:
-
-                    customer[column] = customer[column].clip(
-                        lower=lower[column],
-                        upper=upper[column]
-                    )
-
-            # -----------------------------------------
-            # MANUAL ONE-HOT ENCODING
-            # -----------------------------------------
-
+            # Manual One-Hot Encoding
             customer["Gender_Female"] = int(
                 gender == "Female"
             )
@@ -519,10 +482,7 @@ elif page == "Churn Prediction":
                 contract == "Quarterly"
             )
 
-            # -----------------------------------------
-            # MATCH MODEL FEATURE ORDER
-            # -----------------------------------------
-
+            # Match model feature order
             model = models["rf_model"]
 
             expected_features = list(
@@ -534,47 +494,40 @@ elif page == "Churn Prediction":
                 fill_value=0
             )
 
-            # -----------------------------------------
-            # STANDARD SCALING
-            # Scale only the original 15 scaler columns
-            # -----------------------------------------
-
+            # Standard scaling
             scaler = models["scaler"]
 
             scale_columns = list(
                 scaler.feature_names_in_
             )
 
-            final_data.loc[:, scale_columns] = (
-                scaler.transform(
-                    final_data[scale_columns]
+            missing_scale_columns = [
+                column for column in scale_columns
+                if column not in final_data.columns
+            ]
+
+            if missing_scale_columns:
+                raise ValueError(
+                    "Missing scaler features: "
+                    + ", ".join(missing_scale_columns)
                 )
+
+            final_data.loc[:, scale_columns] = (
+                scaler.transform(final_data[scale_columns])
             )
 
-            # -----------------------------------------
-            # RANDOM FOREST PREDICTION
-            # -----------------------------------------
+            # Random Forest prediction
+            prediction = model.predict(final_data)[0]
 
-            prediction = model.predict(
-                final_data
-            )[0]
+            probabilities = model.predict_proba(final_data)[0]
 
-            probabilities = model.predict_proba(
-                final_data
-            )[0]
-
-            churn_index = list(
-                model.classes_
-            ).index(1)
+            churn_index = list(model.classes_).index(1)
 
             churn_probability = (
                 probabilities[churn_index] * 100
             )
 
-            # -----------------------------------------
-            # DISPLAY RESULT
-            # -----------------------------------------
-
+            # Display result
             st.divider()
 
             st.markdown("### Prediction Result")
@@ -620,9 +573,7 @@ elif page == "Churn Prediction":
 
         except Exception as error:
 
-            st.error(
-                f"Prediction failed: {error}"
-            )
+            st.error(f"Prediction failed: {error}")
 
 
 # =========================================================
@@ -643,10 +594,7 @@ elif page == "Customer Segmentation":
         "Noise points are represented by cluster label -1."
     )
 
-    # -----------------------------------------
-    # PREPARE DATA AS IN THE DBSCAN NOTEBOOK
-    # -----------------------------------------
-
+    # Prepare data
     segment_source = df.copy()
 
     # Remove duplicate CustomerIDs only
@@ -662,17 +610,12 @@ elif page == "Customer Segmentation":
     ).copy()
 
     # Remove ID and target from clustering features
-
     db_features = customer_details.drop(
         columns=["CustomerID", "Churn"],
         errors="ignore"
     ).copy()
 
-    # -----------------------------------------
-    # IMPUTE MISSING VALUES
-    # Same approach as the DBSCAN notebook
-    # -----------------------------------------
-
+    # Impute missing values
     categorical_columns = db_features.select_dtypes(
         include=["object"]
     ).columns
@@ -687,24 +630,17 @@ elif page == "Customer Segmentation":
 
         if not mode_values.empty:
 
-            db_features[column] = (
-                db_features[column].fillna(
-                    mode_values.iloc[0]
-                )
+            db_features[column] = db_features[column].fillna(
+                mode_values.iloc[0]
             )
 
     for column in numerical_columns:
 
-        db_features[column] = (
-            db_features[column].fillna(
-                db_features[column].median()
-            )
+        db_features[column] = db_features[column].fillna(
+            db_features[column].median()
         )
 
-    # -----------------------------------------
-    # ONE-HOT ENCODING
-    # -----------------------------------------
-
+    # One-Hot Encoding
     db_features = pd.get_dummies(
         db_features,
         columns=list(categorical_columns),
@@ -712,7 +648,6 @@ elif page == "Customer Segmentation":
     )
 
     # Match original DBSCAN feature order
-
     db_scaler = models["minmax_scaler"]
 
     db_columns = list(
@@ -724,18 +659,10 @@ elif page == "Customer Segmentation":
         fill_value=0
     )
 
-    # -----------------------------------------
-    # MINMAX SCALING
-    # -----------------------------------------
+    # MinMax Scaling
+    db_scaled = db_scaler.transform(db_features)
 
-    db_scaled = db_scaler.transform(
-        db_features
-    )
-
-    # -----------------------------------------
-    # USE SAVED DBSCAN LABELS
-    # -----------------------------------------
-
+    # Use saved DBSCAN labels
     dbscan_model = models["dbscan_model"]
 
     labels = dbscan_model.labels_
@@ -745,25 +672,17 @@ elif page == "Customer Segmentation":
         st.error(
             "The saved DBSCAN model was fitted on a different "
             "number of customers than the current dataset. "
-            "Please regenerate dbscan_model.pkl after updating "
-            "your DBSCAN preprocessing."
+            "Please verify the dataset and DBSCAN preprocessing."
         )
 
         st.stop()
 
     customer_details["Cluster"] = labels
 
-    # -----------------------------------------
-    # CLUSTER METRICS
-    # -----------------------------------------
+    # Cluster metrics
+    number_of_clusters = len(set(labels) - {-1})
 
-    number_of_clusters = len(
-        set(labels) - {-1}
-    )
-
-    noise_points = int(
-        np.sum(labels == -1)
-    )
+    noise_points = int(np.sum(labels == -1))
 
     cluster_col, noise_col, customer_col = st.columns(3)
 
@@ -784,10 +703,7 @@ elif page == "Customer Segmentation":
 
     st.divider()
 
-    # -----------------------------------------
-    # CLUSTER DISTRIBUTION
-    # -----------------------------------------
-
+    # Cluster distribution
     st.markdown("### Cluster Distribution")
 
     cluster_counts = (
@@ -798,24 +714,17 @@ elif page == "Customer Segmentation":
 
     st.bar_chart(cluster_counts)
 
-    # -----------------------------------------
-    # CUSTOMER PROFILE
-    # -----------------------------------------
-
+    # Customer cluster profiles
     st.markdown("### Customer Cluster Profiles")
 
     if "Churn" in customer_details.columns:
 
-        profile = customer_details.groupby(
-            "Cluster"
-        ).agg(
+        profile = customer_details.groupby("Cluster").agg(
             Customer_Count=("Churn", "size"),
             Churn_Rate=("Churn", "mean")
         )
 
-        profile["Churn_Rate"] = (
-            profile["Churn_Rate"] * 100
-        )
+        profile["Churn_Rate"] = profile["Churn_Rate"] * 100
 
         st.dataframe(
             profile.round(2),
@@ -833,19 +742,14 @@ elif page == "Customer Segmentation":
             use_container_width=True
         )
 
-    # -----------------------------------------
-    # PCA VISUALIZATION
-    # -----------------------------------------
-
+    # PCA visualization
     st.markdown("### PCA Cluster Visualization")
 
     with st.spinner("Preparing PCA visualization..."):
 
         pca = PCA(n_components=2)
 
-        pca_data = pca.fit_transform(
-            db_scaled
-        )
+        pca_data = pca.fit_transform(db_scaled)
 
         pca_df = pd.DataFrame(
             pca_data,
@@ -854,7 +758,7 @@ elif page == "Customer Segmentation":
 
         pca_df["Cluster"] = labels
 
-        # Sample points for a responsive chart
+        # Sample points for responsive chart
         plot_df = pca_df.sample(
             n=min(10000, len(pca_df)),
             random_state=78
@@ -885,14 +789,11 @@ elif page == "Customer Segmentation":
         plt.close(fig)
 
         st.caption(
-            "PCA is used here only to visualize the clusters. "
+            "PCA is used only to visualize the clusters. "
             "DBSCAN performs the actual clustering."
         )
 
-    # -----------------------------------------
-    # FILTER CUSTOMER CLUSTERS
-    # -----------------------------------------
-
+    # Explore customer segments
     st.markdown("### Explore Customer Segments")
 
     available_clusters = sorted(
@@ -966,12 +867,8 @@ elif page == "Model Information":
         "Model": "DBSCAN",
         "Epsilon": dbscan.eps,
         "Minimum Samples": dbscan.min_samples,
-        "Clusters": len(
-            set(dbscan.labels_) - {-1}
-        ),
-        "Noise Points": int(
-            np.sum(dbscan.labels_ == -1)
-        )
+        "Clusters": len(set(dbscan.labels_) - {-1}),
+        "Noise Points": int(np.sum(dbscan.labels_ == -1))
     })
 
     st.divider()
@@ -1011,4 +908,3 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-
