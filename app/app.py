@@ -512,10 +512,13 @@ elif page == "Churn Prediction":
                     + ", ".join(missing_scale_columns)
                 )
 
-            final_data.loc[:, scale_columns] = (
-                scaler.transform(final_data[scale_columns])
-            )
-
+            # Convert columns to float before scaling
+            final_data[scale_columns] = final_data[scale_columns].astype(float)
+            # Apply StandardScaler
+            scaled_values = scaler.transform(final_data[scale_columns])
+            # Assign scaled values
+            final_data.loc[:, scale_columns] = scaled_values
+            
             # Random Forest prediction
             prediction = model.predict(final_data)[0]
 
