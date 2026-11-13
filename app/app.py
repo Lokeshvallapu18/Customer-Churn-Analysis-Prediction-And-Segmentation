@@ -393,7 +393,7 @@ elif page == "Churn Prediction":
 
             subscription = st.selectbox(
                 "Subscription Type",
-                ["Basic", "Premium", "Standard", "Unknown"]
+                ["Basic", "Premium", "Standard"]
             )
 
             contract = st.selectbox(
@@ -448,10 +448,6 @@ elif page == "Churn Prediction":
 
             customer["Gender_Male"] = int(
                 gender == "Male"
-            )
-
-            customer["Gender_nan"] = int(
-                gender == "Unknown"
             )
 
             customer["Subscription Type_Basic"] = int(
@@ -563,8 +559,7 @@ elif page == "Churn Prediction":
             )
 
             st.caption(
-                "This is a model-estimated probability, "
-                "not a guarantee of future customer behaviour."
+                "This is a model-estimated probability "
             )
 
             with st.expander("View processed customer features"):
