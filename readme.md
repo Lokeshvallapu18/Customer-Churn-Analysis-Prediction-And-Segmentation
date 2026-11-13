@@ -286,7 +286,7 @@ The dashboard provides an overview of customer information and churn patterns.
 - Customer-related visualizations.
 - Subscription and contract analysis.
 
-![Dashboard](<img width="1920" height="1080" alt="Screenshot 2026-11-13 224102" src="https://github.com/user-attachments/assets/b74cf79f-bc91-48ef-8f91-69dc5d7e5971" />)
+![Dashboard](<src="https://github.com/user-attachments/assets/b74cf79f-bc91-48ef-8f91-69dc5d7e5971" />)
 
 ### 9.2 Churn Prediction
 
@@ -479,6 +479,6 @@ This project demonstrates how machine learning can help businesses improve custo
 
 ---
 
-##15. Developed By:
+## 15. Developed By:
 
 **Lokesh Vallapu**
