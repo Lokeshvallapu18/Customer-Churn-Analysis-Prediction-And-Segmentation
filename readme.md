@@ -286,8 +286,7 @@ The dashboard provides an overview of customer information and churn patterns.
 - Customer-related visualizations.
 - Subscription and contract analysis.
 
-![Dashboard](<img width="1920" height="1080" alt="Screenshot 2026-11-13 224102" src="https://github.com/user-attachments/assets/b74cf79f-bc91-48ef-8f91-69dc5d7e5971" />
-)
+![Dashboard](<img width="1920" height="1080" alt="Screenshot 2026-11-13 224102" src="https://github.com/user-attachments/assets/b74cf79f-bc91-48ef-8f91-69dc5d7e5971" />)
 
 ### 9.2 Churn Prediction
 
@@ -301,8 +300,7 @@ The trained Random Forest model processes the customer information and generates
 
 This feature demonstrates how a trained machine learning model can be used for individual customer predictions.
 
-![Churn Prediction](<img width="1920" height="1008" alt="Screenshot 2026-11-13 224148" src="https://github.com/user-attachments/assets/5fa16d4e-76d8-450d-8a41-87a8a1d38cc4" />
-)
+![Churn Prediction](<img width="1920" height="1008" alt="Screenshot 2026-11-13 224148" src="https://github.com/user-attachments/assets/5fa16d4e-76d8-450d-8a41-87a8a1d38cc4" />)
 
 ### 9.3 Customer Segmentation
 
@@ -316,8 +314,7 @@ This section focuses on identifying customer groups using DBSCAN.
 - Customer segment analysis.
 - PCA-based cluster visualization.
 
-![Customer Segmentation](<img width="1920" height="1080" alt="Screenshot 2026-11-13 224208" src="https://github.com/user-attachments/assets/69856573-f9b1-4a47-a58f-b6b59e836ed7" />
-)
+![Customer Segmentation](<img width="1920" height="1080" alt="Screenshot 2026-11-13 224208" src="https://github.com/user-attachments/assets/69856573-f9b1-4a47-a58f-b6b59e836ed7" />)
 
 ### 9.4 Model Information
 
@@ -329,8 +326,7 @@ This section provides information about the machine learning algorithms used in 
 - Decision Tree Classifier.
 - DBSCAN Clustering.
 
-![Model Information](<img width="1920" height="1080" alt="Screenshot 2026-11-13 224239" src="https://github.com/user-attachments/assets/b9ee9510-e304-43a9-8aaf-deaf62734752" />
-)
+![Model Information](<img width="1920" height="1080" alt="Screenshot 2026-11-13 224239" src="https://github.com/user-attachments/assets/b9ee9510-e304-43a9-8aaf-deaf62734752" />)
 
 ---
 
