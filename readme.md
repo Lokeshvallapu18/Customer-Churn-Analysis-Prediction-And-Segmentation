@@ -286,7 +286,9 @@ The dashboard provides an overview of customer information and churn patterns.
 - Customer-related visualizations.
 - Subscription and contract analysis.
 
-![Dashboard](<src="https://github.com/user-attachments/assets/b74cf79f-bc91-48ef-8f91-69dc5d7e5971" />)
+### 9.1 Dashboard
+
+<img width="1920" height="1008" alt="Screenshot 2026-11-13 224148" src="https://github.com/user-attachments/assets/a085e324-a9e8-467f-8fb1-08f1039a3c0c" />
 
 ### 9.2 Churn Prediction
 
