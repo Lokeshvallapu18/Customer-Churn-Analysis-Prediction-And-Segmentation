@@ -483,6 +483,6 @@ This project demonstrates how machine learning can help businesses improve custo
 
 ---
 
-## 16. 👨‍💻 Developed By: 
+##15. Developed By:
 
 **Lokesh Vallapu**
