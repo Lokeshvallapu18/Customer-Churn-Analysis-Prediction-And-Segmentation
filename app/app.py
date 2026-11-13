@@ -9,6 +9,24 @@ import seaborn as sns
 from pathlib import Path
 from sklearn.decomposition import PCA
 
+# =========================================================
+# PROJECT MODULE IMPORTS
+# =========================================================
+
+from Src.preprocessing import (
+    load_dataset,
+    prepare_prediction_features,
+    scale_prediction_features
+)
+
+from Src.prediction import predict_churn
+
+from Src.segmentation import (
+    prepare_segmentation_features,
+    scale_segmentation_features,
+    get_cluster_labels
+)
+
 
 # =========================================================
 # 1. PAGE CONFIGURATION
