@@ -247,12 +247,6 @@ Churn Analysis/
 ├── Notebooks/
 │   └── Customer_Churn_Analysis_Segmentation.ipynb
 │
-├── Src/
-│   ├── __init__.py
-│   ├── prediction.py
-│   ├── preprocessing.py
-│   └── segmentation.py
-│
 ├── .gitignore
 ├── Dockerfile
 ├── README.md
