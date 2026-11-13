@@ -27,7 +27,7 @@ st.set_page_config(
 # =========================================================
 
 ROOT = Path(__file__).resolve().parent.parent
-MODEL_PATH = ROOT / "Models"
+MODEL_PATH = ROOT / "models"
 
 DATA_PATH = (
     ROOT / "data" /
