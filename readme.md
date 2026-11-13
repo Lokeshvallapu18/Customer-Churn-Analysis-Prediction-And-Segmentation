@@ -328,9 +328,10 @@ This section provides information about the machine learning algorithms used in 
 - Decision Tree Classifier.
 - DBSCAN Clustering.
 
-<img width="1920" height="1080" alt="Screenshot 2026-11-13 224239" src="https://github.com/user-attachments/assets/b9ee9510-e304-43a9-8aaf-deaf62734752" />
+<img width="1920" height="1080" alt="Screenshot 2026-11-13 224227" src="https://github.com/user-attachments/assets/5686f6bb-794b-4141-833c-6428ebc95ae3" />
 
 ---
+These images are just for understand and there are more images are present you can see when you run the code.
 
 ## 10. 📈 Model Evaluation Metrics
 
