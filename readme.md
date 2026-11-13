@@ -347,3 +347,118 @@ Classification models can be evaluated using the following metrics:
 | Confusion Matrix | Shows correct and incorrect classification results. |
 
 These metrics help evaluate model performance from different perspectives.
+
+
+---
+
+## 11. 🚀 Installation and Execution
+
+Follow these steps to run the project locally.
+
+### Step 1: Clone the Repository
+
+```bash
+git clone <https://github.com/Lokeshvallapu18/Customer-Churn-Analysis-Prediction-And-Segmentation>
+```
+
+### Step 2: Navigate to the Project Directory
+
+```bash
+cd Customer-Churn-Analysis-and-Segmentation
+```
+
+### Step 3: Create a Virtual Environment
+
+```bash
+python -m venv venv
+```
+
+Activate the virtual environment on Windows:
+
+```bash
+venv\Scripts\activate
+```
+
+### Step 4: Install Required Libraries
+
+```bash
+pip install -r requirements.txt
+```
+
+### Step 5: Run the Streamlit Application
+
+```bash
+streamlit run app/app.py
+```
+
+The application will be available at:
+
+```text
+http://localhost:8501
+```
+
+---
+
+## 12. 🐳 Docker Deployment
+
+Docker is used to containerize the application along with its required dependencies.
+
+### Step 1: Build the Docker Image
+
+Run the following command from the main project directory:
+
+```bash
+docker build -t customer-churn-analysis .
+```
+
+### Step 2: Run the Docker Container
+
+```bash
+docker run -p 8201:8201 customer-churn-analysis
+```
+
+### Step 3: Access the Application
+
+Open the following address in your browser:
+
+```text
+http://localhost:8201
+```
+
+---
+
+## 13. ☁️ Streamlit Cloud Deployment
+
+The application is deployed using Streamlit Community Cloud, making it accessible through a web browser.
+
+### Deployment Configuration
+
+| Configuration | Value |
+|---|---|
+| Platform | Streamlit Community Cloud |
+| Repository | Customer-Churn-Analysis-and-Segmentation |
+| Branch | main |
+| Main File Path | app/app.py |
+
+### Live Application
+
+🚀 [Click Here to Access the Customer Churn Prediction Application] https://customer-churn-analysis-prediction-and-segmentation.streamlit.app/
+
+---
+
+## 14. 📈 Business Impact
+
+This project demonstrates how machine learning can help businesses improve customer retention strategies.
+
+### Key Benefits
+
+- **Early Churn Identification:** Identify customers who are predicted to discontinue their services.
+- **Customer Behavior Analysis:** Understand customer usage patterns and churn-related factors.
+- **Customer Segmentation:** Discover groups of customers with similar characteristics.
+- **Data-Driven Decisions:** Support business decisions using machine learning predictions and analytical insights.
+- **Retention Strategies:** Help businesses identify customers who may need additional attention.
+
+**Ultimate Goal:** Move from reactive customer management to proactive, data-driven customer retention.
+
+---
+
