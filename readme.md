@@ -3,7 +3,7 @@
 ### An End-to-End Machine Learning Project for Customer Behavior Analysis, Churn Prediction and Customer Segmentation.
 
 <p align="center">
-  <a href="https://customer-churn-analysis-prediction-and-segmentation.streamlit.app/">
+  <a href=https://customer-churn-analysis-prediction-and-segmentation-hhlcndb3sz.streamlit.app/
     🚀 <strong>Live Application – Try It Here</strong>
   </a>
 </p>
@@ -24,7 +24,7 @@ The application is developed using Python and Streamlit, allowing users to explo
 
 **Live Application:**
 
-https://customer-churn-analysis-prediction-and-segmentation.streamlit.app/
+https://customer-churn-analysis-prediction-and-segmentation-hhlcndb3sz.streamlit.app/
 
 ---
 
@@ -462,7 +462,7 @@ The application is deployed using Streamlit Community Cloud, making it accessibl
 
 ### Live Application
 
-🚀 [Click Here to Access the Customer Churn Prediction Application](https://customer-churn-analysis-prediction-and-segmentation.streamlit.app/)
+🚀 [Click Here to Access the Customer Churn Prediction Application](https://customer-churn-analysis-prediction-and-segmentation-hhlcndb3sz.streamlit.app/)
 
 ---
 
